@@ -1,4 +1,8 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
+import 'package:vibration/vibration.dart';
+import 'package:flutter_beep/flutter_beep.dart';
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key, required this.title});
@@ -13,23 +17,32 @@ class MyHomePage extends StatefulWidget {
   // always marked "final".
 
   final String title;
-
   @override
   State<MyHomePage> createState() => _MyHomePageState();
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
+  int _counter = 10;
+  late Timer _countdown;
 
-  void _incrementCounter() {
-    setState(() {
-      // This call to setState tells the Flutter framework that something has
-      // changed in this State, which causes it to rerun the build method below
-      // so that the display can reflect the updated values. If we changed
-      // _counter without calling setState(), then the build method would not be
-      // called again, and so nothing would appear to happen.
-      _counter++;
-    });
+  void _decrementCounter() {
+    _countdown = Timer.periodic(
+        Duration(seconds: 1),
+        (_) => {
+              setState(() {
+                // This call to setState tells the Flutter framework that something has
+                // changed in this State, which causes it to rerun the build method below
+                // so that the display can reflect the updated values. If we changed
+                // _counter without calling setState(), then the build method would not be
+                // called again, and so nothing would appear to happen.
+                _counter--;
+                if (_counter <= 3) {
+                  Vibration.vibrate();
+                  FlutterBeep.beep();
+                  if(_counter <= 0) _countdown.cancel();
+                }
+              })
+            });
   }
 
   @override
@@ -69,6 +82,9 @@ class _MyHomePageState extends State<MyHomePage> {
           // wireframe for each widget.
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
+            TextButton( child: Text("Beep Success"), onPressed: ()=> FlutterBeep.playSysSound(AndroidSoundIDs.TONE_CDMA_CONFIRM)),
+            Text(_counter.toString()),
+            TextButton(onPressed: _decrementCounter, child: Text("Click")),
             const Card(
               child: const Column(
                 children: [
