@@ -1,6 +1,9 @@
 import 'dart:async';
+import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:jcpmf/models/card.dart';
 import 'package:vibration/vibration.dart';
 import 'package:flutter_beep/flutter_beep.dart';
 
@@ -25,6 +28,18 @@ class _MyHomePageState extends State<MyHomePage> {
   int _counter = 10;
   late Timer _countdown;
 
+  List<CardModel> _cards = [];
+
+// Fetch content from the json file
+  Future<void> readJson() async {
+    final String response = await rootBundle.loadString('assets/data.json');
+    final Map<String, dynamic> data = await json.decode(response);
+    setState(() {
+      _cards =
+          List<CardModel>.from(data["cards"].map((x) => CardModel.fromJson(x)));
+    });
+  }
+
   void _decrementCounter() {
     _countdown = Timer.periodic(
         Duration(seconds: 1),
@@ -39,7 +54,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 if (_counter <= 3) {
                   Vibration.vibrate();
                   FlutterBeep.beep();
-                  if(_counter <= 0) _countdown.cancel();
+                  if (_counter <= 0) _countdown.cancel();
                 }
               })
             });
@@ -99,7 +114,13 @@ class _MyHomePageState extends State<MyHomePage> {
                   )
                 ],
               ),
-            )
+              ),
+            TextButton(
+                child: Text("Beep Success"),
+                onPressed: () => FlutterBeep.playSysSound(
+                    AndroidSoundIDs.TONE_CDMA_CONFIRM)),
+            Text(_counter.toString()),
+            TextButton(onPressed: _decrementCounter, child: Text("Click")),
           ],
         ),
       ),
