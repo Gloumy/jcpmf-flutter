@@ -4,11 +4,12 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:jcpmf/models/card.dart';
+import 'package:jcpmf/pages/card_page.dart';
 import 'package:vibration/vibration.dart';
 import 'package:flutter_beep/flutter_beep.dart';
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
+class CardSelectionPage extends StatefulWidget {
+  const CardSelectionPage({super.key, required this.title});
 
   // This widget is the home page of your application. It is stateful, meaning
   // that it has a State object (defined below) that contains fields that affect
@@ -21,10 +22,10 @@ class MyHomePage extends StatefulWidget {
 
   final String title;
   @override
-  State<MyHomePage> createState() => _MyHomePageState();
+  State<CardSelectionPage> createState() => _CardSelectionPageState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
+class _CardSelectionPageState extends State<CardSelectionPage> {
   int _counter = 10;
   late Timer _countdown;
 
@@ -116,7 +117,12 @@ class _MyHomePageState extends State<MyHomePage> {
                   Text("Semaine $week"),
                   for (CardModel card
                       in _cards.where((element) => element.week == week))
-                    Text(card.day.toString()),
+                    TextButton(
+                        onPressed: () => Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => CardPage(card: card))),
+                        child: Text(card.day.toString())),
                 ],
               )),
           ],

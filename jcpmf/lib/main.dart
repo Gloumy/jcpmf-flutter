@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:jcpmf/pages/my_home_page.dart';
+import 'package:jcpmf/pages/card_selection_page.dart';
 
 void main() {
   runApp(const MyApp());
@@ -33,7 +33,7 @@ class MyApp extends StatelessWidget {
             seedColor: const Color.fromRGBO(12, 42, 78, 1)),
         useMaterial3: true,
       ),
-      home: const MyHomePage(title: 'JCPMF'),
+      home: const CardSelectionPage(title: 'JCPMF'),
     );
   }
 }
