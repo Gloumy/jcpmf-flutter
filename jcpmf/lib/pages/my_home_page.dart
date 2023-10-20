@@ -61,6 +61,16 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   @override
+  void initState() {
+    readJson();
+    super.initState();
+  }
+
+  // void initData() async {
+  //   await readJson();
+  // }
+
+  @override
   Widget build(BuildContext context) {
     // This method is rerun every time setState is called, for instance as done
     // by the _incrementCounter method above.
@@ -97,23 +107,28 @@ class _MyHomePageState extends State<MyHomePage> {
           // wireframe for each widget.
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            TextButton( child: Text("Beep Success"), onPressed: ()=> FlutterBeep.playSysSound(AndroidSoundIDs.TONE_CDMA_CONFIRM)),
+            TextButton(onPressed: readJson, child: Text("Load")),
+            TextButton(
+                child: Text("Beep Success"),
+                onPressed: () => FlutterBeep.playSysSound(
+                    AndroidSoundIDs.TONE_CDMA_CONFIRM)),
             Text(_counter.toString()),
             TextButton(onPressed: _decrementCounter, child: Text("Click")),
-            const Card(
-              child: const Column(
-                children: [
-                  Text("Semaine 1"),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-                      Text("1"),
-                      Text("2"),
-                      Text("3"),
-                    ],
-                  )
-                ],
-              ),
+            for (int week in _cards.map((e) => e.week).toSet().toList())
+              Card(
+                child: Column(
+                  children: [
+                    Text("Semaine $week"),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        for (CardModel card
+                            in _cards.where((element) => element.week == week))
+                          Text(card.day.toString()),
+                      ],
+                    )
+                  ],
+                ),
               ),
             TextButton(
                 child: Text("Beep Success"),
