@@ -87,6 +87,7 @@ class _MyHomePageState extends State<MyHomePage> {
         // Here we take the value from the MyHomePage object that was created by
         // the App.build method, and use it to set our appbar title.
         title: Text(widget.title),
+        centerTitle: true,
       ),
       body: Center(
         // Center is a layout widget. It takes a single child and positions it
@@ -105,37 +106,19 @@ class _MyHomePageState extends State<MyHomePage> {
           // TRY THIS: Invoke "debug painting" (choose the "Toggle Debug Paint"
           // action in the IDE, or press "p" in the console), to see the
           // wireframe for each widget.
-          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
-            TextButton(onPressed: readJson, child: Text("Load")),
-            TextButton(
-                child: Text("Beep Success"),
-                onPressed: () => FlutterBeep.playSysSound(
-                    AndroidSoundIDs.TONE_CDMA_CONFIRM)),
-            Text(_counter.toString()),
-            TextButton(onPressed: _decrementCounter, child: Text("Click")),
             for (int week in _cards.map((e) => e.week).toSet().toList())
               Card(
-                child: Column(
-                  children: [
-                    Text("Semaine $week"),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: [
-                        for (CardModel card
-                            in _cards.where((element) => element.week == week))
-                          Text(card.day.toString()),
-                      ],
-                    )
-                  ],
-                ),
-              ),
-            TextButton(
-                child: Text("Beep Success"),
-                onPressed: () => FlutterBeep.playSysSound(
-                    AndroidSoundIDs.TONE_CDMA_CONFIRM)),
-            Text(_counter.toString()),
-            TextButton(onPressed: _decrementCounter, child: Text("Click")),
+                  child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  Text("Semaine $week"),
+                  for (CardModel card
+                      in _cards.where((element) => element.week == week))
+                    Text(card.day.toString()),
+                ],
+              )),
           ],
         ),
       ),

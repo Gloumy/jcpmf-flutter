@@ -33,7 +33,7 @@ class MyApp extends StatelessWidget {
             seedColor: const Color.fromRGBO(12, 42, 78, 1)),
         useMaterial3: true,
       ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      home: const MyHomePage(title: 'JCPMF'),
     );
   }
 }
