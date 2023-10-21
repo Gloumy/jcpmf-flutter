@@ -1,10 +1,10 @@
-class Step {
+class StepModel {
   final String type;
   final int duration;
 
-  Step(this.type, this.duration);
+  StepModel(this.type, this.duration);
 
-  Step.fromJson(Map<String, dynamic> json)
+  StepModel.fromJson(Map<String, dynamic> json)
       : type = json["type"],
         duration = json["duration"];
 

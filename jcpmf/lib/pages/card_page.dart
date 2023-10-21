@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:jcpmf/models/card.dart';
+import 'package:jcpmf/models/step.dart';
 
 class CardPage extends StatefulWidget {
   const CardPage({super.key, required this.card});
@@ -27,7 +28,17 @@ class _CardPageState extends State<CardPage> {
       body: Center(
           // Center is a layout widget. It takes a single child and positions it
           // in the middle of the parent.
-          child: Text("Week ${widget.card.week} Day ${widget.card.day}")),
+          child: Column(
+        children: [
+          for (StepModel step in widget.card.steps)
+            Card(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [Text(step.type), Text(step.duration.toString())],
+              ),
+            )
+        ],
+      )),
     );
   }
 }
