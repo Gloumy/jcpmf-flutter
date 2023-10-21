@@ -47,6 +47,11 @@ class _CardPageState extends State<CardPage> {
         await Future.delayed(const Duration(seconds: 1));
       }
     }
+    setState(() {
+      _currentStep = -1;
+      _currentCountdown = widget.card.steps[0].getDurationInMs();
+    });
+    countdownDisplay();
   }
 
   void countdownDisplay() {
