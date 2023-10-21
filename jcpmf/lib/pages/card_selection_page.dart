@@ -26,9 +26,6 @@ class CardSelectionPage extends StatefulWidget {
 }
 
 class _CardSelectionPageState extends State<CardSelectionPage> {
-  int _counter = 10;
-  late Timer _countdown;
-
   List<CardModel> _cards = [];
 
 // Fetch content from the json file
@@ -39,26 +36,6 @@ class _CardSelectionPageState extends State<CardSelectionPage> {
       _cards =
           List<CardModel>.from(data["cards"].map((x) => CardModel.fromJson(x)));
     });
-  }
-
-  void _decrementCounter() {
-    _countdown = Timer.periodic(
-        Duration(seconds: 1),
-        (_) => {
-              setState(() {
-                // This call to setState tells the Flutter framework that something has
-                // changed in this State, which causes it to rerun the build method below
-                // so that the display can reflect the updated values. If we changed
-                // _counter without calling setState(), then the build method would not be
-                // called again, and so nothing would appear to happen.
-                _counter--;
-                if (_counter <= 3) {
-                  Vibration.vibrate();
-                  FlutterBeep.beep();
-                  if (_counter <= 0) _countdown.cancel();
-                }
-              })
-            });
   }
 
   @override

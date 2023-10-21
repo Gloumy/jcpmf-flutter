@@ -1,6 +1,10 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_beep/flutter_beep.dart';
 import 'package:jcpmf/models/card.dart';
 import 'package:jcpmf/models/step.dart';
+import 'package:vibration/vibration.dart';
 
 class CardPage extends StatefulWidget {
   const CardPage({super.key, required this.card});
@@ -12,6 +16,62 @@ class CardPage extends StatefulWidget {
 }
 
 class _CardPageState extends State<CardPage> {
+  late int _counter;
+  late int _currentCountdown;
+  late String _displayCountdown;
+  int _currentStep = -1;
+
+  @override
+  void initState() {
+    setState(() {
+      _currentCountdown = widget.card.steps[0].getDurationInMs();
+    });
+    countdownDisplay();
+    super.initState();
+  }
+
+  late Timer _countdown;
+
+  void startCountdown() async {
+    final int maxIndex = widget.card.steps.length - 1;
+    for (int i = 0; i <= maxIndex; i++) {
+      setState(() {
+        _currentStep = i;
+      });
+      final int duration = widget.card.steps[i].getDurationInMs();
+      for (int j = duration; j >= 0; j -= 1000) {
+        setState(() {
+          _currentCountdown = j;
+        });
+        countdownDisplay();
+        await Future.delayed(const Duration(seconds: 1));
+      }
+    }
+  }
+
+  void countdownDisplay() {
+    final bool lessThanMinute = _currentCountdown <= 60000;
+    final int minute = (_currentCountdown / 60000).floor();
+    int seconds = lessThanMinute
+        ? (_currentCountdown / 1000).floor()
+        : (_currentCountdown % 60000) ~/ 1000;
+
+    if (seconds == 60) {
+      seconds = 0;
+    }
+
+    setState(() {
+      _displayCountdown =
+          "${minute.toString().padLeft(2, '0')}:${seconds.toString().padLeft(2, '0')}";
+    });
+  }
+
+  Color cardColor(StepModel step) {
+    bool active = widget.card.steps.indexOf(step) == _currentStep;
+
+    return active ? Colors.greenAccent : Colors.grey;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -30,13 +90,16 @@ class _CardPageState extends State<CardPage> {
           // in the middle of the parent.
           child: Column(
         children: [
+          Text(_displayCountdown),
           for (StepModel step in widget.card.steps)
             Card(
+              color: cardColor(step),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [Text(step.type), Text(step.duration.toString())],
               ),
-            )
+            ),
+          TextButton(onPressed: startCountdown, child: Text("Start"))
         ],
       )),
     );
