@@ -1,8 +1,10 @@
 import 'dart:async';
 
+import 'package:async/async.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_beep/flutter_beep.dart';
 import 'package:jcpmf/models/card.dart';
+import 'package:jcpmf/models/countdown_state.dart';
 import 'package:jcpmf/models/step.dart';
 import 'package:jcpmf/services/local_notification_service.dart';
 import 'package:vibration/vibration.dart';
@@ -23,6 +25,7 @@ class _CardPageState extends State<CardPage> {
   late int _currentCountdown;
   late String _displayCountdown;
   int _currentStep = -1;
+  CountdownState countdownState = CountdownState.stopped;
 
   @override
   void initState() {
@@ -37,7 +40,18 @@ class _CardPageState extends State<CardPage> {
 
   void startCountdown() async {
     final int maxIndex = card.steps.length - 1;
+    countdownState = CountdownState.ongoing;
+
     for (int i = 0; i <= maxIndex; i++) {
+      if (countdownState != CountdownState.ongoing) {
+        if (countdownState == CountdownState.skipped) {
+          setCountdownState(CountdownState.ongoing);
+        } else {
+          // Paused or stopped
+          break;
+        }
+      }
+
       setState(() {
         _currentStep = i;
       });
@@ -50,18 +64,30 @@ class _CardPageState extends State<CardPage> {
       }
       final int duration = card.steps[i].getDurationInMs();
       for (int j = duration; j >= 0; j -= 1000) {
-        setState(() {
-          _currentCountdown = j;
-        });
-        countdownDisplay();
-        if (j <= 3000) {
-          await FlutterBeep.beep();
+        if (countdownState == CountdownState.ongoing) {
+          setState(() {
+            _currentCountdown = j;
+          });
+          countdownDisplay();
+          if (j <= 3000) {
+            await FlutterBeep.beep();
+          }
+          await Future.delayed(const Duration(seconds: 1));
+        } else {
+          if (countdownState != CountdownState.ongoing) {
+            // Stopped, skipped or paused
+            break;
+          }
         }
-        await Future.delayed(const Duration(seconds: 1));
       }
     }
-    await LocalNotificationService()
-        .addNotification("Entraînement terminé", "Bravo !");
+    if (countdownState == CountdownState.ongoing) {
+      await LocalNotificationService()
+          .addNotification("Entraînement terminé", "Bravo !");
+    }
+  }
+
+  Future<void> reset() async {
     if (await Vibration.hasVibrator() ?? false) {
       Vibration.vibrate(duration: 1000);
     }
@@ -95,6 +121,15 @@ class _CardPageState extends State<CardPage> {
     return active ? Colors.greenAccent : Colors.grey;
   }
 
+  void setCountdownState(CountdownState state) {
+    if (state == CountdownState.stopped) {
+      reset();
+    }
+    setState(() {
+      countdownState = state;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -123,6 +158,15 @@ class _CardPageState extends State<CardPage> {
               ),
             ),
           TextButton(onPressed: startCountdown, child: Text("Start")),
+          TextButton(
+              onPressed: () => setCountdownState(CountdownState.paused),
+              child: Text("Pause")),
+          TextButton(
+              onPressed: () => setCountdownState(CountdownState.stopped),
+              child: Text("Stop")),
+          TextButton(
+              onPressed: () => setCountdownState(CountdownState.skipped),
+              child: Text("Skip")),
         ],
       )),
     );
