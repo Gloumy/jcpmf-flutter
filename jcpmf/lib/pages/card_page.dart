@@ -17,6 +17,8 @@ class CardPage extends StatefulWidget {
 }
 
 class _CardPageState extends State<CardPage> {
+  late CardModel card = widget.card;
+
   late int _counter;
   late int _currentCountdown;
   late String _displayCountdown;
@@ -25,7 +27,7 @@ class _CardPageState extends State<CardPage> {
   @override
   void initState() {
     setState(() {
-      _currentCountdown = widget.card.steps[0].getDurationInMs();
+      _currentCountdown = card.steps[0].getDurationInMs();
     });
     countdownDisplay();
     super.initState();
@@ -34,7 +36,7 @@ class _CardPageState extends State<CardPage> {
   late Timer _countdown;
 
   void startCountdown() async {
-    final int maxIndex = widget.card.steps.length - 1;
+    final int maxIndex = card.steps.length - 1;
     for (int i = 0; i <= maxIndex; i++) {
       setState(() {
         _currentStep = i;
@@ -42,11 +44,11 @@ class _CardPageState extends State<CardPage> {
       final notificationTitle =
           _currentStep == 0 ? "Première étape" : "Etape suivante";
       await LocalNotificationService().addNotification(notificationTitle,
-          "${_currentStep + 1}. ${widget.card.steps[i].displayType()} ${widget.card.steps[i].duration}min");
+          "${_currentStep + 1}. ${card.steps[i].displayType()} ${card.steps[i].duration}min");
       if (await Vibration.hasVibrator() ?? false) {
         Vibration.vibrate();
       }
-      final int duration = widget.card.steps[i].getDurationInMs();
+      final int duration = card.steps[i].getDurationInMs();
       for (int j = duration; j >= 0; j -= 1000) {
         setState(() {
           _currentCountdown = j;
@@ -65,7 +67,7 @@ class _CardPageState extends State<CardPage> {
     }
     setState(() {
       _currentStep = -1;
-      _currentCountdown = widget.card.steps[0].getDurationInMs();
+      _currentCountdown = card.steps[0].getDurationInMs();
     });
     countdownDisplay();
   }
@@ -88,7 +90,7 @@ class _CardPageState extends State<CardPage> {
   }
 
   Color cardColor(StepModel step) {
-    bool active = widget.card.steps.indexOf(step) == _currentStep;
+    bool active = card.steps.indexOf(step) == _currentStep;
 
     return active ? Colors.greenAccent : Colors.grey;
   }
@@ -112,7 +114,7 @@ class _CardPageState extends State<CardPage> {
           child: Column(
         children: [
           Text(_displayCountdown),
-          for (StepModel step in widget.card.steps)
+          for (StepModel step in card.steps)
             Card(
               color: cardColor(step),
               child: Row(
