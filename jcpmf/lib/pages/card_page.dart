@@ -44,6 +44,12 @@ class _CardPageState extends State<CardPage> {
           _currentCountdown = j;
         });
         countdownDisplay();
+        if (j <= 3000) {
+          await FlutterBeep.beep();
+          if (j <= 0 && (await Vibration.hasVibrator() ?? false)) {
+            Vibration.vibrate();
+          }
+        }
         await Future.delayed(const Duration(seconds: 1));
       }
     }
