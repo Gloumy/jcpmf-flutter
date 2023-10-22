@@ -20,8 +20,6 @@ class CardPage extends StatefulWidget {
 
 class _CardPageState extends State<CardPage> {
   late CardModel card = widget.card;
-
-  late int _counter;
   late int _currentCountdown;
   late String _displayCountdown;
   int _currentStep = -1;
@@ -36,11 +34,15 @@ class _CardPageState extends State<CardPage> {
     super.initState();
   }
 
-  late Timer _countdown;
+  void startCountdown() async {
+    bool resume = countdownState == CountdownState.paused;
 
-  void startCountdown({bool resume = false}) async {
     final int maxIndex = card.steps.length - 1;
-    countdownState = CountdownState.ongoing;
+    if (countdownState == CountdownState.ongoing) {
+      setCountdownState(CountdownState.paused);
+    } else {
+      setCountdownState(CountdownState.ongoing);
+    }
 
     for (int i = resume ? _currentStep : 0; i <= maxIndex; i++) {
       if (countdownState != CountdownState.ongoing) {
@@ -82,6 +84,7 @@ class _CardPageState extends State<CardPage> {
       }
     }
     if (countdownState == CountdownState.ongoing) {
+      setCountdownState(CountdownState.stopped);
       await LocalNotificationService()
           .addNotification("Entraînement terminé", "Bravo !");
     }
@@ -157,19 +160,25 @@ class _CardPageState extends State<CardPage> {
                 children: [Text(step.type), Text(step.duration.toString())],
               ),
             ),
-          TextButton(onPressed: startCountdown, child: Text("Start")),
-          TextButton(
-              onPressed: () => setCountdownState(CountdownState.paused),
-              child: Text("Pause")),
-          TextButton(
-              onPressed: () => setCountdownState(CountdownState.stopped),
-              child: Text("Stop")),
-          TextButton(
-              onPressed: () => setCountdownState(CountdownState.skipped),
-              child: Text("Skip")),
-          TextButton(
-              onPressed: () => startCountdown(resume: true),
-              child: Text("Resume")),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              IconButton.outlined(
+                  onPressed: startCountdown,
+                  icon: countdownState == CountdownState.ongoing
+                      ? const Icon(
+                          Icons.pause,
+                          color: Colors.orange,
+                        )
+                      : const Icon(Icons.play_arrow, color: Colors.green)),
+              IconButton.outlined(
+                  onPressed: () => setCountdownState(CountdownState.stopped),
+                  icon: const Icon(Icons.stop, color: Colors.black)),
+              IconButton.outlined(
+                  onPressed: () => setCountdownState(CountdownState.skipped),
+                  icon: const Icon(Icons.skip_next, color: Colors.blue)),
+            ],
+          )
         ],
       )),
     );
