@@ -1,157 +1,7 @@
 {
     "cards": [
         {
-            "week": 1,
-            "day": 1,
-            "steps": [
-                {
-                    "type": "E/S",
-                    "duration": 1
-                },
-                {
-                    "type": "C",
-                    "duration": 1
-                },
-                {
-                    "type": "M",
-                    "duration": 1
-                },
-                {
-                    "type": "C",
-                    "duration": 4
-                },
-                {
-                    "type": "M",
-                    "duration": 2
-                },
-                {
-                    "type": "C",
-                    "duration": 5
-                },
-                {
-                    "type": "M",
-                    "duration": 3
-                },
-                {
-                    "type": "C",
-                    "duration": 6
-                },
-                {
-                    "type": "M",
-                    "duration": 3
-                },
-                {
-                    "type": "C",
-                    "duration": 4
-                },
-                {
-                    "type": "RC",
-                    "duration": 5
-                }
-            ]
-        },
-        {
-            "week": 1,
-            "day": 2,
-            "steps": [
-                {
-                    "type": "E/S",
-                    "duration": 10
-                },
-                {
-                    "type": "C",
-                    "duration": 1
-                },
-                {
-                    "type": "M",
-                    "duration": 1
-                },
-                {
-                    "type": "C",
-                    "duration": 4
-                },
-                {
-                    "type": "M",
-                    "duration": 2
-                },
-                {
-                    "type": "C",
-                    "duration": 5
-                },
-                {
-                    "type": "M",
-                    "duration": 3
-                },
-                {
-                    "type": "C",
-                    "duration": 6
-                },
-                {
-                    "type": "M",
-                    "duration": 3
-                },
-                {
-                    "type": "C",
-                    "duration": 4
-                },
-                {
-                    "type": "RC",
-                    "duration": 5
-                }
-            ]
-        },
-        {
-            "week": 1,
-            "day": 3,
-            "steps": [
-                {
-                    "type": "E/S",
-                    "duration": 10
-                },
-                {
-                    "type": "C",
-                    "duration": 1
-                },
-                {
-                    "type": "M",
-                    "duration": 1
-                },
-                {
-                    "type": "C",
-                    "duration": 4
-                },
-                {
-                    "type": "M",
-                    "duration": 2
-                },
-                {
-                    "type": "C",
-                    "duration": 5
-                },
-                {
-                    "type": "M",
-                    "duration": 3
-                },
-                {
-                    "type": "C",
-                    "duration": 6
-                },
-                {
-                    "type": "M",
-                    "duration": 3
-                },
-                {
-                    "type": "C",
-                    "duration": 4
-                },
-                {
-                    "type": "RC",
-                    "duration": 5
-                }
-            ]
-        },
-        {
-            "week": 2,
+            "week": 8,
             "day": 1,
             "steps": [
                 {
@@ -160,39 +10,31 @@
                 },
                 {
                     "type": "C",
-                    "duration": 1
-                },
-                {
-                    "type": "M",
-                    "duration": 1
-                },
-                {
-                    "type": "C",
                     "duration": 4
                 },
                 {
-                    "type": "M",
+                    "type": "M/T",
                     "duration": 2
-                },
-                {
-                    "type": "C",
-                    "duration": 5
-                },
-                {
-                    "type": "M",
-                    "duration": 3
                 },
                 {
                     "type": "C",
                     "duration": 6
                 },
                 {
-                    "type": "M",
+                    "type": "M/T",
+                    "duration": 2
+                },
+                {
+                    "type": "C",
+                    "duration": 8
+                },
+                {
+                    "type": "M/T",
                     "duration": 3
                 },
                 {
                     "type": "C",
-                    "duration": 4
+                    "duration": 10
                 },
                 {
                     "type": "RC",
@@ -201,7 +43,7 @@
             ]
         },
         {
-            "week": 2,
+            "week": 8,
             "day": 2,
             "steps": [
                 {
@@ -210,39 +52,31 @@
                 },
                 {
                     "type": "C",
-                    "duration": 1
+                    "duration": 6
                 },
                 {
-                    "type": "M",
-                    "duration": 1
-                },
-                {
-                    "type": "C",
-                    "duration": 4
-                },
-                {
-                    "type": "M",
+                    "type": "M/T",
                     "duration": 2
                 },
                 {
                     "type": "C",
-                    "duration": 5
+                    "duration": 10
                 },
                 {
-                    "type": "M",
-                    "duration": 3
-                },
-                {
-                    "type": "C",
-                    "duration": 6
-                },
-                {
-                    "type": "M",
+                    "type": "M/T",
                     "duration": 3
                 },
                 {
                     "type": "C",
                     "duration": 4
+                },
+                {
+                    "type": "M/T",
+                    "duration": 2
+                },
+                {
+                    "type": "C",
+                    "duration": 10
                 },
                 {
                     "type": "RC",
@@ -251,7 +85,7 @@
             ]
         },
         {
-            "week": 2,
+            "week": 8,
             "day": 3,
             "steps": [
                 {
@@ -260,39 +94,157 @@
                 },
                 {
                     "type": "C",
-                    "duration": 1
+                    "duration": 6
                 },
                 {
-                    "type": "M",
-                    "duration": 1
-                },
-                {
-                    "type": "C",
-                    "duration": 4
-                },
-                {
-                    "type": "M",
+                    "type": "M/T",
                     "duration": 2
                 },
                 {
                     "type": "C",
-                    "duration": 5
+                    "duration": 8
                 },
                 {
-                    "type": "M",
+                    "type": "M/T",
+                    "duration": 2
+                },
+                {
+                    "type": "C",
+                    "duration": 8
+                },
+                {
+                    "type": "M/T",
                     "duration": 3
                 },
                 {
                     "type": "C",
-                    "duration": 6
+                    "duration": 8
                 },
                 {
-                    "type": "M",
+                    "type": "RC",
+                    "duration": 5
+                }
+            ]
+        },
+        {
+            "week": 9,
+            "day": 1,
+            "steps": [
+                {
+                    "type": "E/S",
+                    "duration": 10
+                },
+                {
+                    "type": "C",
+                    "duration": 8
+                },
+                {
+                    "type": "M/T",
+                    "duration": 1
+                },
+                {
+                    "type": "C",
+                    "duration": 8
+                },
+                {
+                    "type": "M/T",
+                    "duration": 2
+                },
+                {
+                    "type": "C",
+                    "duration": 8
+                },
+                {
+                    "type": "M/T",
                     "duration": 3
+                },
+                {
+                    "type": "C",
+                    "duration": 10
+                },
+                {
+                    "type": "RC",
+                    "duration": 5
+                }
+            ]
+        },
+        {
+            "week": 9,
+            "day": 2,
+            "steps": [
+                {
+                    "type": "E/S",
+                    "duration": 10
+                },
+                {
+                    "type": "C",
+                    "duration": 8
+                },
+                {
+                    "type": "M/T",
+                    "duration": 2
                 },
                 {
                     "type": "C",
                     "duration": 4
+                },
+                {
+                    "type": "M/T",
+                    "duration": 1
+                },
+                {
+                    "type": "C",
+                    "duration": 10
+                },
+                {
+                    "type": "M/T",
+                    "duration": 2
+                },
+                {
+                    "type": "C",
+                    "duration": 10
+                },
+                {
+                    "type": "RC",
+                    "duration": 5
+                }
+            ]
+        },
+        {
+            "week": 9,
+            "day": 3,
+            "steps": [
+                {
+                    "type": "E/S",
+                    "duration": 10
+                },
+                {
+                    "type": "C",
+                    "duration": 10
+                },
+                {
+                    "type": "M/T",
+                    "duration": 2
+                },
+                {
+                    "type": "C",
+                    "duration": 4
+                },
+                {
+                    "type": "M/T",
+                    "duration": 1
+                },
+                {
+                    "type": "C",
+                    "duration": 10
+                },
+                {
+                    "type": "M/T",
+                    "duration": 2
+                },
+                {
+                    "type": "C",
+                    "duration": 12
                 },
                 {
                     "type": "RC",
