@@ -1,4 +1,4 @@
-package com.example.jcpmf
+package dev.cornet.jcpmf
 
 import io.flutter.embedding.android.FlutterActivity
 
