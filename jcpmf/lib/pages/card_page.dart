@@ -39,6 +39,13 @@ class _CardPageState extends State<CardPage> {
       setState(() {
         _currentStep = i;
       });
+      final notificationTitle =
+          _currentStep == 0 ? "Première étape" : "Etape suivante";
+      await LocalNotificationService().addNotification(notificationTitle,
+          "${_currentStep + 1}. ${widget.card.steps[i].displayType()} ${widget.card.steps[i].duration}min");
+      if (await Vibration.hasVibrator() ?? false) {
+        Vibration.vibrate();
+      }
       final int duration = widget.card.steps[i].getDurationInMs();
       for (int j = duration; j >= 0; j -= 1000) {
         setState(() {
@@ -47,13 +54,14 @@ class _CardPageState extends State<CardPage> {
         countdownDisplay();
         if (j <= 3000) {
           await FlutterBeep.beep();
-          if (j <= 0 && (await Vibration.hasVibrator() ?? false)) {
-            Vibration.vibrate();
-            await LocalNotificationService().addNotification("foo", "body");
-          }
         }
         await Future.delayed(const Duration(seconds: 1));
       }
+    }
+    await LocalNotificationService()
+        .addNotification("Entraînement terminé", "Bravo !");
+    if (await Vibration.hasVibrator() ?? false) {
+      Vibration.vibrate(duration: 1000);
     }
     setState(() {
       _currentStep = -1;
