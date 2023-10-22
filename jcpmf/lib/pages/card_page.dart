@@ -38,11 +38,11 @@ class _CardPageState extends State<CardPage> {
 
   late Timer _countdown;
 
-  void startCountdown() async {
+  void startCountdown({bool resume = false}) async {
     final int maxIndex = card.steps.length - 1;
     countdownState = CountdownState.ongoing;
 
-    for (int i = 0; i <= maxIndex; i++) {
+    for (int i = resume ? _currentStep : 0; i <= maxIndex; i++) {
       if (countdownState != CountdownState.ongoing) {
         if (countdownState == CountdownState.skipped) {
           setCountdownState(CountdownState.ongoing);
@@ -51,7 +51,6 @@ class _CardPageState extends State<CardPage> {
           break;
         }
       }
-
       setState(() {
         _currentStep = i;
       });
@@ -62,7 +61,8 @@ class _CardPageState extends State<CardPage> {
       if (await Vibration.hasVibrator() ?? false) {
         Vibration.vibrate();
       }
-      final int duration = card.steps[i].getDurationInMs();
+      final int duration =
+          resume ? _currentCountdown : card.steps[i].getDurationInMs();
       for (int j = duration; j >= 0; j -= 1000) {
         if (countdownState == CountdownState.ongoing) {
           setState(() {
@@ -167,6 +167,9 @@ class _CardPageState extends State<CardPage> {
           TextButton(
               onPressed: () => setCountdownState(CountdownState.skipped),
               child: Text("Skip")),
+          TextButton(
+              onPressed: () => startCountdown(resume: true),
+              child: Text("Resume")),
         ],
       )),
     );
