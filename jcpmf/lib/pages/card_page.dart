@@ -49,8 +49,7 @@ class _CardPageState extends State<CardPage> {
           await FlutterBeep.beep();
           if (j <= 0 && (await Vibration.hasVibrator() ?? false)) {
             Vibration.vibrate();
-            await LocalNotificationService().addNotification(
-                "foo", "body", DateTime.now().millisecondsSinceEpoch);
+            await LocalNotificationService().addNotification("foo", "body");
           }
         }
         await Future.delayed(const Duration(seconds: 1));
@@ -61,11 +60,6 @@ class _CardPageState extends State<CardPage> {
       _currentCountdown = widget.card.steps[0].getDurationInMs();
     });
     countdownDisplay();
-  }
-
-  void displayNotification() async {
-    await LocalNotificationService()
-        .addNotification("foo", "body", DateTime.now().millisecondsSinceEpoch);
   }
 
   void countdownDisplay() {
@@ -119,7 +113,6 @@ class _CardPageState extends State<CardPage> {
               ),
             ),
           TextButton(onPressed: startCountdown, child: Text("Start")),
-          TextButton(onPressed: displayNotification, child: Text("notif"))
         ],
       )),
     );

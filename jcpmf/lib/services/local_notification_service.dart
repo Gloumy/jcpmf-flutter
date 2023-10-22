@@ -7,15 +7,10 @@ class LocalNotificationService {
   final _localNotificationsPlugin = FlutterLocalNotificationsPlugin();
 
   Future<void> setup() async {
-    // #1
     const androidSetting = AndroidInitializationSettings('@mipmap/ic_launcher');
-    // const iosSetting = IOSInitializationSettings();
 
-    // #2
-    const initSettings = InitializationSettings(
-        android: androidSetting, iOS: /* iosSetting */ null);
+    const initSettings = InitializationSettings(android: androidSetting);
 
-    // #3
     await _localNotificationsPlugin.initialize(initSettings).then((_) {
       debugPrint('setupPlugin: setup success');
     }).catchError((Object error) {
@@ -25,26 +20,17 @@ class LocalNotificationService {
 
   Future<void> addNotification(
     String title,
-    String body,
-    int endTime, {
+    String body, {
     String sound = '',
     String channel = 'default',
   }) async {
     // #1
-    tzData.initializeTimeZones();
-    final scheduleTime =
-        tz.TZDateTime.fromMillisecondsSinceEpoch(tz.local, endTime);
-
-// #2
     final androidDetail = AndroidNotificationDetails(
         channel, // channel Id
         channel // channel Name
         );
 
-    // final iosDetail = IOSNotificationDetails();
-
     final noticeDetail = NotificationDetails(
-      // iOS: iosDetail,
       android: androidDetail,
     );
 
@@ -53,16 +39,5 @@ class LocalNotificationService {
 
 // #4
     await _localNotificationsPlugin.show(id, title, body, noticeDetail);
-
-    // await _localNotificationsPlugin.zonedSchedule(
-    //   id,
-    //   title,
-    //   body,
-    //   scheduleTime,
-    //   noticeDetail,
-    //   uiLocalNotificationDateInterpretation:
-    //       UILocalNotificationDateInterpretation.absoluteTime,
-    //   androidAllowWhileIdle: true,
-    // );
   }
 }
