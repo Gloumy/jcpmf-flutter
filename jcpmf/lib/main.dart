@@ -1,9 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:jcpmf/pages/card_selection_page.dart';
 import 'package:jcpmf/services/local_notification_service.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  var status = await Permission.notification.status;
+  if (status.isDenied) {
+    await Permission.notification.request();
+  }
   await LocalNotificationService().setup();
   runApp(const MyApp());
 }
